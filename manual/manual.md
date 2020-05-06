@@ -174,28 +174,35 @@ uname -r
 packer build centos.json
 ```
 
-Если все в порядке, то, согласно файла `config.json` будет скачан исходный iso-образ CentOS, установлен на виртуальную машину в автоматическом режиме, обновлено ядро и осуществлен экспорт в указанный нами файл. Если не вносилось изменений в предложенные файлы, то в текущей директории мы увидим файл `centos-7.7.1908-kernel-5-x86_64-Minimal.box`. Он и является результатом работы `packer`.
+Если все в порядке, то, согласно файла `config.json` будет скачан исходный iso-образ CentOS, установлен на виртуальную машину в автоматическом режиме, обновлено ядро и осуществлен экспорт в указанный нами файл. Если не вносилось изменений в предложенные файлы, то в текущей директории мы увидим файл `centos-7.8.2003-kernel-5-x86_64-Minimal.box`. Он и является результатом работы `packer`.
 
 ### **vagrant init (тестирование)**
 Проведем тестирование созданного образа. Выполним его импорт в `vagrant`:
 
 ```
-vagrant box add --name centos-7-5 centos-7.7.1908-kernel-5-x86_64-Minimal.box
+vagrant box add --name centos-7.8 centos-7.8.2003-kernel-5-x86_64-Minimal.box
 ```
 
 Проверим его в списке имеющихся образов (ваш вывод может отличаться):
 
 ```
 vagrant box list
-centos-7-5            (virtualbox, 0)
+centos-7.8 (virtualbox, 0)
 ```
 
-Он будет называться `centos-7-5`, данное имя мы задали при помощи параметра `name` при импорте.
+Он будет называться `centos-7.8`, данное имя мы задали при помощи параметра `name` при импорте.
 
-Теперь необходимо провести тестирование полученного образа. Для этого создадим новый Vagrantfile или воспользуемся имеющимся. Для нового создадим директорию `test` и в ней выполним:
+Теперь необходимо провести тестирование полученного образа. Для этого создадим новый Vagrantfile или воспользуемся имеющимся.
+Для нового создадим директорию `test` и в ней выполним:
 
 ```
-vagrant init centos-7-5
+C:\Users\preningav\Documents\GitHub\manual_kernel_update\packer>cd test
+
+C:\Users\preningav\Documents\GitHub\manual_kernel_update\packer\test>vagrant init centos-7.8
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
 ```
 
 Для имеющегося произведем замену значения `box_name` на имя импортированного образа. Соотвествующая строка примет вид:

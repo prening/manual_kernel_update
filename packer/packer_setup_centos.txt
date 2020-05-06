@@ -1,0 +1,740 @@
+Делаем образ системы. Пока я эксперементировал с образом выложили новый дистрибутив и я переделал загрузку и установку на него:
+
+```
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer>packer build centos.json
+centos-7.8: output will be in this color.
+
+==> centos-7.8: Retrieving Guest additions
+==> centos-7.8: Trying C:\Program Files\Oracle\VirtualBox/VBoxGuestAdditions.iso
+==> centos-7.8: Trying file://C:/Program%20Files/Oracle/VirtualBox/VBoxGuestAdditions.iso
+==> centos-7.8: file://C:/Program%20Files/Oracle/VirtualBox/VBoxGuestAdditions.iso => C:/Program Files/Oracle/VirtualBox/VBoxGuestAdditions.iso
+==> centos-7.8: Retrieving ISO
+==> centos-7.8: Trying https://mirror.yandex.ru/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso
+==> centos-7.8: Trying https://mirror.yandex.ru/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso?checksum=sha256%3A659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193
+==> centos-7.8: https://mirror.yandex.ru/centos/7.8.2003/isos/x86_64/CentOS-7-x86_64-Minimal-2003.iso?checksum=sha256%3A659691c28a0e672558b003d223f83938f254b39875ee7559d1a4a14c79173193 => C:\Users\...\Documents\GitHub\manual_kernel_update\packer\packer_cache\36dda400c5d4f77a23cc863e156df9dd5ea53e22.iso
+==> centos-7.8: Starting HTTP server on port 8246
+==> centos-7.8: Creating virtual machine...
+==> centos-7.8: Creating hard drive...
+==> centos-7.8: Creating forwarded port mapping for communicator (SSH, WinRM, etc) (host port 3685)
+==> centos-7.8: Executing custom VBoxManage commands...
+    centos-7.8: Executing: modifyvm packer-centos-vm --memory 2048
+    centos-7.8: Executing: modifyvm packer-centos-vm --cpus 4
+==> centos-7.8: Starting the virtual machine...
+==> centos-7.8: Waiting 1m0s for boot...
+==> centos-7.8: Typing the boot command...
+==> centos-7.8: Using ssh communicator to connect: 127.0.0.1
+==> centos-7.8: Waiting for SSH to become available...
+==> centos-7.8: Connected to SSH!
+==> centos-7.8: Uploading VirtualBox version info (6.1.6)
+==> centos-7.8: Uploading VirtualBox guest additions ISO...
+==> centos-7.8: Pausing 1m0s before the next provisioner...
+==> centos-7.8: Provisioning with shell script: scripts/stage-1-kernel-update.sh
+    centos-7.8: Loaded plugins: fastestmirror
+    centos-7.8: elrepo-release-7.0-3.el7.elrepo.noarch.rpm               | 8.5 kB     00:00
+    centos-7.8: Examining /var/tmp/yum-root-pIhz18/elrepo-release-7.0-3.el7.elrepo.noarch.rpm: elrepo-release-7.0-3.el7.elrepo.noarch
+    centos-7.8: Marking /var/tmp/yum-root-pIhz18/elrepo-release-7.0-3.el7.elrepo.noarch.rpm to be installed
+    centos-7.8: Resolving Dependencies
+    centos-7.8: --> Running transaction check
+    centos-7.8: ---> Package elrepo-release.noarch 0:7.0-3.el7.elrepo will be installed
+    centos-7.8: --> Finished Dependency Resolution
+    centos-7.8:
+    centos-7.8: Dependencies Resolved
+    centos-7.8:
+    centos-7.8: ================================================================================
+    centos-7.8:  Package  Arch   Version          Repository                               Size
+    centos-7.8: ================================================================================
+    centos-7.8: Installing:
+    centos-7.8:  [1melrepo-release(B[m
+    centos-7.8:           noarch 7.0-3.el7.elrepo /elrepo-release-7.0-3.el7.elrepo.noarch 5.2 k
+    centos-7.8:
+    centos-7.8: Transaction Summary
+    centos-7.8: ================================================================================
+    centos-7.8: Install  1 Package
+    centos-7.8:
+    centos-7.8: Total size: 5.2 k
+    centos-7.8: Installed size: 5.2 k
+    centos-7.8: Downloading packages:
+    centos-7.8: Running transaction check
+    centos-7.8: Running transaction test
+    centos-7.8: Transaction test succeeded
+    centos-7.8: Running transaction
+    centos-7.8:   Installing : elrepo-release-7.0-3.el7.elrepo.noarch                       1/1
+    centos-7.8:   Verifying  : elrepo-release-7.0-3.el7.elrepo.noarch                       1/1
+    centos-7.8:
+    centos-7.8: Installed:
+    centos-7.8:   elrepo-release.noarch 0:7.0-3.el7.elrepo
+    centos-7.8:
+    centos-7.8: Complete!
+    centos-7.8: Loaded plugins: fastestmirror
+    centos-7.8: Determining fastest mirrors
+    centos-7.8:  * base: mirrors.supportex.net
+    centos-7.8:  * elrepo: mirror.koddos.net
+    centos-7.8:  * elrepo-kernel: mirror.koddos.net
+    centos-7.8:  * extras: centos.mirror.transip.nl
+    centos-7.8:  * updates: mirror.widexs.nl
+    centos-7.8: base                                                     | 3.6 kB     00:00
+    centos-7.8: elrepo                                                   | 2.9 kB     00:00
+    centos-7.8: elrepo-kernel                                            | 2.9 kB     00:00
+    centos-7.8: extras                                                   | 2.9 kB     00:00
+    centos-7.8: updates                                                  | 2.9 kB     00:00
+    centos-7.8: (1/6): base/7/x86_64/group_gz                              | 153 kB   00:00
+    centos-7.8: (2/6): elrepo/primary_db                                   | 480 kB   00:00
+    centos-7.8: (3/6): extras/7/x86_64/primary_db                          | 190 kB   00:00
+    centos-7.8: (4/6): elrepo-kernel/primary_db                            | 1.9 MB   00:00
+    centos-7.8: (5/6): updates/7/x86_64/primary_db                         | 168 kB   00:00
+    centos-7.8: (6/6): base/7/x86_64/primary_db                            | 6.1 MB   00:00
+    centos-7.8: Resolving Dependencies
+    centos-7.8: --> Running transaction check
+    centos-7.8: ---> Package kernel-ml.x86_64 0:5.6.10-1.el7.elrepo will be installed
+    centos-7.8: --> Finished Dependency Resolution
+    centos-7.8:
+    centos-7.8: Dependencies Resolved
+    centos-7.8:
+    centos-7.8: ================================================================================
+    centos-7.8:  Package        Arch        Version                    Repository          Size
+    centos-7.8: ================================================================================
+    centos-7.8: Installing:
+    centos-7.8:  kernel-ml      x86_64      5.6.10-1.el7.elrepo        elrepo-kernel       49 M
+    centos-7.8:
+    centos-7.8: Transaction Summary
+    centos-7.8: ================================================================================
+    centos-7.8: Install  1 Package
+    centos-7.8:
+    centos-7.8: Total download size: 49 M
+    centos-7.8: Installed size: 222 M
+    centos-7.8: Downloading packages:
+    centos-7.8: warning: /var/cache/yum/x86_64/7/elrepo-kernel/packages/kernel-ml-5.6.10-1.el7.elrepo.x86_64.rpm: Header V4 DSA/SHA1 Signature, key ID baadae52: NOKEY
+    centos-7.8: Public key for kernel-ml-5.6.10-1.el7.elrepo.x86_64.rpm is not installed
+    centos-7.8: kernel-ml-5.6.10-1.el7.elrepo.x86_64.rpm                   |  49 MB   00:01
+    centos-7.8: Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-elrepo.org
+    centos-7.8: Importing GPG key 0xBAADAE52:
+    centos-7.8:  Userid     : "elrepo.org (RPM Signing Key for elrepo.org) <secure@elrepo.org>"
+    centos-7.8:  Fingerprint: 96c0 104f 6315 4731 1e0b b1ae 309b c305 baad ae52
+    centos-7.8:  Package    : elrepo-release-7.0-3.el7.elrepo.noarch (@/elrepo-release-7.0-3.el7.elrepo.noarch)
+    centos-7.8:  From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-elrepo.org
+    centos-7.8: Running transaction check
+    centos-7.8: Running transaction test
+    centos-7.8: Transaction test succeeded
+    centos-7.8: Running transaction
+    centos-7.8:   Installing : kernel-ml-5.6.10-1.el7.elrepo.x86_64                         1/1
+    centos-7.8:   Verifying  : kernel-ml-5.6.10-1.el7.elrepo.x86_64                         1/1
+    centos-7.8:
+    centos-7.8: Installed:
+    centos-7.8:   kernel-ml.x86_64 0:5.6.10-1.el7.elrepo
+    centos-7.8:
+    centos-7.8: Complete!
+    centos-7.8: Generating grub configuration file ...
+    centos-7.8: Found linux image: /boot/vmlinuz-5.6.10-1.el7.elrepo.x86_64
+    centos-7.8: Found initrd image: /boot/initramfs-5.6.10-1.el7.elrepo.x86_64.img
+    centos-7.8: Found linux image: /boot/vmlinuz-0-rescue-97ea20dd89223843a624f19019baf770
+    centos-7.8: Found initrd image: /boot/initramfs-0-rescue-97ea20dd89223843a624f19019baf770.img
+    centos-7.8: done
+    centos-7.8: Grub update done.
+==> centos-7.8: Provisioning with shell script: scripts/stage-2-clean.sh
+    centos-7.8: Loaded plugins: fastestmirror
+    centos-7.8: Loading mirror speeds from cached hostfile
+    centos-7.8:  * base: mirrors.supportex.net
+    centos-7.8:  * elrepo: mirror.koddos.net
+    centos-7.8:  * extras: centos.mirror.transip.nl
+    centos-7.8:  * updates: mirror.widexs.nl
+    centos-7.8: Resolving Dependencies
+    centos-7.8: --> Running transaction check
+    centos-7.8: ---> Package bind-export-libs.x86_64 32:9.11.4-16.P2.el7 will be updated
+    centos-7.8: ---> Package bind-export-libs.x86_64 32:9.11.4-16.P2.el7_8.2 will be an update
+    centos-7.8: ---> Package device-mapper.x86_64 7:1.02.164-7.el7 will be updated
+    centos-7.8: ---> Package device-mapper.x86_64 7:1.02.164-7.el7_8.1 will be an update
+    centos-7.8: ---> Package device-mapper-event.x86_64 7:1.02.164-7.el7 will be updated
+    centos-7.8: ---> Package device-mapper-event.x86_64 7:1.02.164-7.el7_8.1 will be an update
+    centos-7.8: ---> Package device-mapper-event-libs.x86_64 7:1.02.164-7.el7 will be updated
+    centos-7.8: ---> Package device-mapper-event-libs.x86_64 7:1.02.164-7.el7_8.1 will be an update
+    centos-7.8: ---> Package device-mapper-libs.x86_64 7:1.02.164-7.el7 will be updated
+    centos-7.8: ---> Package device-mapper-libs.x86_64 7:1.02.164-7.el7_8.1 will be an update
+    centos-7.8: ---> Package elrepo-release.noarch 0:7.0-3.el7.elrepo will be updated
+    centos-7.8: ---> Package elrepo-release.noarch 0:7.0-4.el7.elrepo will be an update
+    centos-7.8: ---> Package firewalld.noarch 0:0.6.3-8.el7 will be updated
+    centos-7.8: ---> Package firewalld.noarch 0:0.6.3-8.el7_8.1 will be an update
+    centos-7.8: ---> Package firewalld-filesystem.noarch 0:0.6.3-8.el7 will be updated
+    centos-7.8: ---> Package firewalld-filesystem.noarch 0:0.6.3-8.el7_8.1 will be an update
+    centos-7.8: ---> Package iprutils.x86_64 0:2.4.17.1-3.el7 will be updated
+    centos-7.8: ---> Package iprutils.x86_64 0:2.4.17.1-3.el7_7 will be an update
+    centos-7.8: ---> Package lvm2.x86_64 7:2.02.186-7.el7 will be updated
+    centos-7.8: ---> Package lvm2.x86_64 7:2.02.186-7.el7_8.1 will be an update
+    centos-7.8: ---> Package lvm2-libs.x86_64 7:2.02.186-7.el7 will be updated
+    centos-7.8: ---> Package lvm2-libs.x86_64 7:2.02.186-7.el7_8.1 will be an update
+    centos-7.8: ---> Package python-firewall.noarch 0:0.6.3-8.el7 will be updated
+    centos-7.8: ---> Package python-firewall.noarch 0:0.6.3-8.el7_8.1 will be an update
+    centos-7.8: ---> Package systemd.x86_64 0:219-73.el7.1 will be updated
+    centos-7.8: ---> Package systemd.x86_64 0:219-73.el7_8.5 will be an update
+    centos-7.8: ---> Package systemd-libs.x86_64 0:219-73.el7.1 will be updated
+    centos-7.8: ---> Package systemd-libs.x86_64 0:219-73.el7_8.5 will be an update
+    centos-7.8: ---> Package systemd-sysv.x86_64 0:219-73.el7.1 will be updated
+    centos-7.8: ---> Package systemd-sysv.x86_64 0:219-73.el7_8.5 will be an update
+    centos-7.8: ---> Package tzdata.noarch 0:2019c-1.el7 will be updated
+    centos-7.8: ---> Package tzdata.noarch 0:2020a-1.el7 will be an update
+    centos-7.8: --> Finished Dependency Resolution
+    centos-7.8:
+    centos-7.8: Dependencies Resolved
+    centos-7.8:
+    centos-7.8: ================================================================================
+    centos-7.8:  Package                    Arch     Version                    Repository
+    centos-7.8:                                                                            Size
+    centos-7.8: ================================================================================
+    centos-7.8: Updating:
+    centos-7.8:  bind-export-libs           x86_64   32:9.11.4-16.P2.el7_8.2    updates   1.1 M
+    centos-7.8:  device-mapper              x86_64   7:1.02.164-7.el7_8.1       updates   295 k
+    centos-7.8:  device-mapper-event        x86_64   7:1.02.164-7.el7_8.1       updates   191 k
+    centos-7.8:  device-mapper-event-libs   x86_64   7:1.02.164-7.el7_8.1       updates   190 k
+    centos-7.8:  device-mapper-libs         x86_64   7:1.02.164-7.el7_8.1       updates   324 k
+    centos-7.8:  elrepo-release             noarch   7.0-4.el7.elrepo           elrepo    8.5 k
+    centos-7.8:  firewalld                  noarch   0.6.3-8.el7_8.1            updates   443 k
+    centos-7.8:  firewalld-filesystem       noarch   0.6.3-8.el7_8.1            updates    51 k
+    centos-7.8:  iprutils                   x86_64   2.4.17.1-3.el7_7           updates   243 k
+    centos-7.8:  lvm2                       x86_64   7:2.02.186-7.el7_8.1       updates   1.3 M
+    centos-7.8:  lvm2-libs                  x86_64   7:2.02.186-7.el7_8.1       updates   1.1 M
+    centos-7.8:  python-firewall            noarch   0.6.3-8.el7_8.1            updates   354 k
+    centos-7.8:  systemd                    x86_64   219-73.el7_8.5             updates   5.1 M
+    centos-7.8:  systemd-libs               x86_64   219-73.el7_8.5             updates   416 k
+    centos-7.8:  systemd-sysv               x86_64   219-73.el7_8.5             updates    93 k
+    centos-7.8:  tzdata                     noarch   2020a-1.el7                updates   495 k
+    centos-7.8:
+    centos-7.8: Transaction Summary
+    centos-7.8: ================================================================================
+    centos-7.8: Upgrade  16 Packages
+    centos-7.8:
+    centos-7.8: Total download size: 12 M
+    centos-7.8: Downloading packages:
+    centos-7.8: Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+    centos-7.8: warning: /var/cache/yum/x86_64/7/updates/packages/device-mapper-event-1.02.164-7.el7_8.1.x86_64.rpm: Header V3 RSA/SHA256 Signature, key ID f4a80eb5: NOKEY
+    centos-7.8: Public key for device-mapper-event-1.02.164-7.el7_8.1.x86_64.rpm is not installed
+    centos-7.8: (1/16): device-mapper-event-1.02.164-7.el7_8.1.x86_64.rpm  | 191 kB   00:00
+    centos-7.8: (2/16): device-mapper-1.02.164-7.el7_8.1.x86_64.rpm        | 295 kB   00:00
+    centos-7.8: (3/16): device-mapper-event-libs-1.02.164-7.el7_8.1.x86_64 | 190 kB   00:00
+    centos-7.8: (4/16): bind-export-libs-9.11.4-16.P2.el7_8.2.x86_64.rpm   | 1.1 MB   00:00
+    centos-7.8: (5/16): firewalld-0.6.3-8.el7_8.1.noarch.rpm               | 443 kB   00:00
+    centos-7.8: (6/16): firewalld-filesystem-0.6.3-8.el7_8.1.noarch.rpm    |  51 kB   00:00
+    centos-7.8: (7/16): device-mapper-libs-1.02.164-7.el7_8.1.x86_64.rpm   | 324 kB   00:00
+    centos-7.8: (8/16): elrepo-release-7.0-4.el7.elrepo.noarch.rpm         | 8.5 kB   00:00
+    centos-7.8: (9/16): iprutils-2.4.17.1-3.el7_7.x86_64.rpm               | 243 kB   00:00
+    centos-7.8: (10/16): lvm2-libs-2.02.186-7.el7_8.1.x86_64.rpm           | 1.1 MB   00:00
+    centos-7.8: (11/16): python-firewall-0.6.3-8.el7_8.1.noarch.rpm        | 354 kB   00:00
+    centos-7.8: (12/16): lvm2-2.02.186-7.el7_8.1.x86_64.rpm                | 1.3 MB   00:00
+    centos-7.8: (13/16): systemd-libs-219-73.el7_8.5.x86_64.rpm            | 416 kB   00:00
+    centos-7.8: (14/16): systemd-sysv-219-73.el7_8.5.x86_64.rpm            |  93 kB   00:00
+    centos-7.8: (15/16): tzdata-2020a-1.el7.noarch.rpm                     | 495 kB   00:00
+    centos-7.8: (16/16): systemd-219-73.el7_8.5.x86_64.rpm                 | 5.1 MB   00:00
+    centos-7.8: --------------------------------------------------------------------------------
+    centos-7.8: Total                                               17 MB/s |  12 MB  00:00
+    centos-7.8: Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    centos-7.8: Importing GPG key 0xF4A80EB5:
+    centos-7.8:  Userid     : "CentOS-7 Key (CentOS 7 Official Signing Key) <security@centos.org>"
+    centos-7.8:  Fingerprint: 6341 ab27 53d7 8a78 a7c2 7bb1 24c6 a8a7 f4a8 0eb5
+    centos-7.8:  Package    : centos-release-7-8.2003.0.el7.centos.x86_64 (@anaconda)
+    centos-7.8:  From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    centos-7.8: Running transaction check
+    centos-7.8: Running transaction test
+    centos-7.8: Transaction test succeeded
+    centos-7.8: Running transaction
+    centos-7.8:   Updating   : systemd-libs-219-73.el7_8.5.x86_64                          1/32
+    centos-7.8:   Updating   : systemd-219-73.el7_8.5.x86_64                               2/32
+    centos-7.8:   Updating   : 7:device-mapper-1.02.164-7.el7_8.1.x86_64                   3/32
+    centos-7.8:   Updating   : 7:device-mapper-libs-1.02.164-7.el7_8.1.x86_64              4/32
+    centos-7.8:   Updating   : 7:device-mapper-event-libs-1.02.164-7.el7_8.1.x86_64        5/32
+    centos-7.8:   Updating   : 7:device-mapper-event-1.02.164-7.el7_8.1.x86_64             6/32
+    centos-7.8:   Updating   : 7:lvm2-libs-2.02.186-7.el7_8.1.x86_64                       7/32
+    centos-7.8:   Updating   : firewalld-filesystem-0.6.3-8.el7_8.1.noarch                 8/32
+    centos-7.8:   Updating   : python-firewall-0.6.3-8.el7_8.1.noarch                      9/32
+    centos-7.8:   Updating   : firewalld-0.6.3-8.el7_8.1.noarch                           10/32
+    centos-7.8:   Updating   : 7:lvm2-2.02.186-7.el7_8.1.x86_64                           11/32
+    centos-7.8:   Updating   : systemd-sysv-219-73.el7_8.5.x86_64                         12/32
+    centos-7.8:   Updating   : tzdata-2020a-1.el7.noarch                                  13/32
+    centos-7.8:   Updating   : iprutils-2.4.17.1-3.el7_7.x86_64                           14/32
+    centos-7.8:   Updating   : 32:bind-export-libs-9.11.4-16.P2.el7_8.2.x86_64            15/32
+    centos-7.8:   Updating   : elrepo-release-7.0-4.el7.elrepo.noarch                     16/32
+    centos-7.8:   Cleanup    : firewalld-0.6.3-8.el7.noarch                               17/32
+    centos-7.8:   Cleanup    : systemd-sysv-219-73.el7.1.x86_64                           18/32
+    centos-7.8:   Cleanup    : firewalld-filesystem-0.6.3-8.el7.noarch                    19/32
+    centos-7.8:   Cleanup    : python-firewall-0.6.3-8.el7.noarch                         20/32
+    centos-7.8:   Cleanup    : tzdata-2019c-1.el7.noarch                                  21/32
+    centos-7.8:   Cleanup    : elrepo-release-7.0-3.el7.elrepo.noarch                     22/32
+    centos-7.8:   Cleanup    : 7:lvm2-2.02.186-7.el7.x86_64                               23/32
+    centos-7.8:   Cleanup    : 7:lvm2-libs-2.02.186-7.el7.x86_64                          24/32
+    centos-7.8:   Cleanup    : 7:device-mapper-event-1.02.164-7.el7.x86_64                25/32
+    centos-7.8:   Cleanup    : 7:device-mapper-event-libs-1.02.164-7.el7.x86_64           26/32
+    centos-7.8:   Cleanup    : 7:device-mapper-1.02.164-7.el7.x86_64                      27/32
+    centos-7.8:   Cleanup    : 7:device-mapper-libs-1.02.164-7.el7.x86_64                 28/32
+    centos-7.8:   Cleanup    : systemd-219-73.el7.1.x86_64                                29/32
+    centos-7.8:   Cleanup    : systemd-libs-219-73.el7.1.x86_64                           30/32
+    centos-7.8:   Cleanup    : iprutils-2.4.17.1-3.el7.x86_64                             31/32
+    centos-7.8:   Cleanup    : 32:bind-export-libs-9.11.4-16.P2.el7.x86_64                32/32
+    centos-7.8:   Verifying  : 7:lvm2-libs-2.02.186-7.el7_8.1.x86_64                       1/32
+    centos-7.8:   Verifying  : 7:device-mapper-event-libs-1.02.164-7.el7_8.1.x86_64        2/32
+    centos-7.8:   Verifying  : elrepo-release-7.0-4.el7.elrepo.noarch                      3/32
+    centos-7.8:   Verifying  : 7:device-mapper-libs-1.02.164-7.el7_8.1.x86_64              4/32
+    centos-7.8:   Verifying  : 32:bind-export-libs-9.11.4-16.P2.el7_8.2.x86_64             5/32
+    centos-7.8:   Verifying  : firewalld-0.6.3-8.el7_8.1.noarch                            6/32
+    centos-7.8:   Verifying  : iprutils-2.4.17.1-3.el7_7.x86_64                            7/32
+    centos-7.8:   Verifying  : 7:device-mapper-1.02.164-7.el7_8.1.x86_64                   8/32
+    centos-7.8:   Verifying  : 7:lvm2-2.02.186-7.el7_8.1.x86_64                            9/32
+    centos-7.8:   Verifying  : tzdata-2020a-1.el7.noarch                                  10/32
+    centos-7.8:   Verifying  : systemd-sysv-219-73.el7_8.5.x86_64                         11/32
+    centos-7.8:   Verifying  : python-firewall-0.6.3-8.el7_8.1.noarch                     12/32
+    centos-7.8:   Verifying  : 7:device-mapper-event-1.02.164-7.el7_8.1.x86_64            13/32
+    centos-7.8:   Verifying  : firewalld-filesystem-0.6.3-8.el7_8.1.noarch                14/32
+    centos-7.8:   Verifying  : systemd-libs-219-73.el7_8.5.x86_64                         15/32
+    centos-7.8:   Verifying  : systemd-219-73.el7_8.5.x86_64                              16/32
+    centos-7.8:   Verifying  : tzdata-2019c-1.el7.noarch                                  17/32
+    centos-7.8:   Verifying  : firewalld-0.6.3-8.el7.noarch                               18/32
+    centos-7.8:   Verifying  : 7:lvm2-libs-2.02.186-7.el7.x86_64                          19/32
+    centos-7.8:   Verifying  : 32:bind-export-libs-9.11.4-16.P2.el7.x86_64                20/32
+    centos-7.8:   Verifying  : 7:device-mapper-event-libs-1.02.164-7.el7.x86_64           21/32
+    centos-7.8:   Verifying  : 7:lvm2-2.02.186-7.el7.x86_64                               22/32
+    centos-7.8:   Verifying  : systemd-219-73.el7.1.x86_64                                23/32
+    centos-7.8:   Verifying  : systemd-sysv-219-73.el7.1.x86_64                           24/32
+    centos-7.8:   Verifying  : systemd-libs-219-73.el7.1.x86_64                           25/32
+    centos-7.8:   Verifying  : firewalld-filesystem-0.6.3-8.el7.noarch                    26/32
+    centos-7.8:   Verifying  : python-firewall-0.6.3-8.el7.noarch                         27/32
+    centos-7.8:   Verifying  : 7:device-mapper-1.02.164-7.el7.x86_64                      28/32
+    centos-7.8:   Verifying  : 7:device-mapper-libs-1.02.164-7.el7.x86_64                 29/32
+    centos-7.8:   Verifying  : elrepo-release-7.0-3.el7.elrepo.noarch                     30/32
+    centos-7.8:   Verifying  : 7:device-mapper-event-1.02.164-7.el7.x86_64                31/32
+    centos-7.8:   Verifying  : iprutils-2.4.17.1-3.el7.x86_64                             32/32
+    centos-7.8:
+    centos-7.8: Updated:
+    centos-7.8:   bind-export-libs.x86_64 32:9.11.4-16.P2.el7_8.2
+    centos-7.8:   device-mapper.x86_64 7:1.02.164-7.el7_8.1
+    centos-7.8:   device-mapper-event.x86_64 7:1.02.164-7.el7_8.1
+    centos-7.8:   device-mapper-event-libs.x86_64 7:1.02.164-7.el7_8.1
+    centos-7.8:   device-mapper-libs.x86_64 7:1.02.164-7.el7_8.1
+    centos-7.8:   elrepo-release.noarch 0:7.0-4.el7.elrepo
+    centos-7.8:   firewalld.noarch 0:0.6.3-8.el7_8.1
+    centos-7.8:   firewalld-filesystem.noarch 0:0.6.3-8.el7_8.1
+    centos-7.8:   iprutils.x86_64 0:2.4.17.1-3.el7_7
+    centos-7.8:   lvm2.x86_64 7:2.02.186-7.el7_8.1
+    centos-7.8:   lvm2-libs.x86_64 7:2.02.186-7.el7_8.1
+    centos-7.8:   python-firewall.noarch 0:0.6.3-8.el7_8.1
+    centos-7.8:   systemd.x86_64 0:219-73.el7_8.5
+    centos-7.8:   systemd-libs.x86_64 0:219-73.el7_8.5
+    centos-7.8:   systemd-sysv.x86_64 0:219-73.el7_8.5
+    centos-7.8:   tzdata.noarch 0:2020a-1.el7
+    centos-7.8:
+    centos-7.8: Complete!
+    centos-7.8: Loaded plugins: fastestmirror
+    centos-7.8: Cleaning repos: base elrepo extras updates
+    centos-7.8: Cleaning up list of fastest mirrors
+    centos-7.8: Other repos take up 10 M of disk space (use --verbose for details)
+    centos-7.8: dd: error writing ‘/EMPTY’: No space left on device
+    centos-7.8: 6708+0 records in
+    centos-7.8: 6707+0 records out
+    centos-7.8: 7032995840 bytes (7.0 GB) copied, 233.386 s, 30.1 MB/s
+==> centos-7.8: Gracefully halting virtual machine...
+==> centos-7.8: Preparing to export machine...
+    centos-7.8: Deleting forwarded port mapping for the communicator (SSH, WinRM, etc) (host port 3685)
+==> centos-7.8: Exporting virtual machine...
+    centos-7.8: Executing: export packer-centos-vm --output builds\packer-centos-vm.ovf --manifest --vsys 0 --description CentOS 7.8 with kernel 5.x --version 7.8.2003
+==> centos-7.8: Deregistering and deleting VM...
+==> centos-7.8: Running post-processor: vagrant
+==> centos-7.8 (vagrant): Creating a dummy Vagrant box to ensure the host system can create one correctly
+==> centos-7.8 (vagrant): Creating Vagrant box for 'virtualbox' provider
+    centos-7.8 (vagrant): Copying from artifact: builds\packer-centos-vm-disk001.vmdk
+    centos-7.8 (vagrant): Copying from artifact: builds\packer-centos-vm.mf
+    centos-7.8 (vagrant): Copying from artifact: builds\packer-centos-vm.ovf
+    centos-7.8 (vagrant): Renaming the OVF to box.ovf...
+    centos-7.8 (vagrant): Compressing: Vagrantfile
+    centos-7.8 (vagrant): Compressing: box.ovf
+    centos-7.8 (vagrant): Compressing: metadata.json
+    centos-7.8 (vagrant): Compressing: packer-centos-vm-disk001.vmdk
+    centos-7.8 (vagrant): Compressing: packer-centos-vm.mf
+Build 'centos-7.8' finished.
+
+==> Builds finished. The artifacts of successful builds are:
+--> centos-7.8: 'virtualbox' provider box: centos-7.8.2003-kernel-5-x86_64-Minimal.box
+
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer>
+```
+
+
+
+Выполним его импорт в `vagrant`:
+```
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer>vagrant box add --name centos-7.8 centos-7.8.2003-kernel-5-x86_64-Minimal.box
+==> box: Box file was not detected as metadata. Adding it directly...
+==> box: Adding box 'centos-7.8' (v0) for provider:
+    box: Unpacking necessary files from: file://C:/Users/.../Documents/GitHub/manual_kernel_update/packer/centos-7.8.2003-kernel-5-x86_64-Minimal.box
+    box:
+==> box: Successfully added box 'centos-7.8' (v0) for 'virtualbox'!
+```
+
+
+
+Проверим его в списке имеющихся образов:
+
+```
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer>vagrant box list
+centos-7.8 (virtualbox, 0)
+```
+
+
+
+Переходим в директорию `test` и в ней выполним:
+
+```
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer>cd test
+
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer\test>vagrant init centos-7.8
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+```
+
+
+
+В созданном нами файле Vagrantfile добавил строчку:
+config.vm.synced_folder ".", "/vagrant"
+
+
+
+Выполним запуск Vagrant:
+
+```
+C:\Users\...\Documents\GitHub\manual_kernel_update\packer\test>vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Importing base box 'centos-7.8'...
+==> default: Matching MAC address for NAT networking...
+==> default: Setting the name of the VM: test_default_1588771245209_11948
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+==> default: Forwarding ports...
+    default: 22 (guest) => 2222 (host) (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default:
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default:
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it's present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> default: Machine booted and ready!
+[default] No Virtualbox Guest Additions installation found.
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.sitbv.nl
+ * elrepo: mirror.koddos.net
+ * extras: centos.mirror.transip.nl
+ * updates: mirror.prolocation.net
+Package binutils-2.27-43.base.el7.x86_64 already installed and latest version
+Package 1:make-3.82-24.el7.x86_64 already installed and latest version
+Resolving Dependencies
+--> Running transaction check
+---> Package bzip2.x86_64 0:1.0.6-13.el7 will be installed
+---> Package elfutils-libelf-devel.x86_64 0:0.176-4.el7 will be installed
+--> Processing Dependency: pkgconfig(zlib) for package: elfutils-libelf-devel-0.176-4.el7.x86_64
+---> Package gcc.x86_64 0:4.8.5-39.el7 will be installed
+--> Processing Dependency: cpp = 4.8.5-39.el7 for package: gcc-4.8.5-39.el7.x86_64
+--> Processing Dependency: glibc-devel >= 2.2.90-12 for package: gcc-4.8.5-39.el7.x86_64
+--> Processing Dependency: libmpfr.so.4()(64bit) for package: gcc-4.8.5-39.el7.x86_64
+--> Processing Dependency: libmpc.so.3()(64bit) for package: gcc-4.8.5-39.el7.x86_64
+---> Package kernel-devel.x86_64 0:3.10.0-1127.el7 will be installed
+---> Package perl.x86_64 4:5.16.3-295.el7 will be installed
+--> Processing Dependency: perl-libs = 4:5.16.3-295.el7 for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Socket) >= 1.3 for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Scalar::Util) >= 1.10 for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl-macros for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl-libs for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(threads::shared) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(threads) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(constant) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Time::Local) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Time::HiRes) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Storable) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Socket) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Scalar::Util) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Pod::Simple::XHTML) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Pod::Simple::Search) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Getopt::Long) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Filter::Util::Call) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(File::Temp) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(File::Spec::Unix) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(File::Spec::Functions) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(File::Spec) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(File::Path) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Exporter) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Cwd) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: perl(Carp) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Processing Dependency: libperl.so()(64bit) for package: 4:perl-5.16.3-295.el7.x86_64
+--> Running transaction check
+---> Package cpp.x86_64 0:4.8.5-39.el7 will be installed
+---> Package glibc-devel.x86_64 0:2.17-307.el7.1 will be installed
+--> Processing Dependency: glibc-headers = 2.17-307.el7.1 for package: glibc-devel-2.17-307.el7.1.x86_64
+--> Processing Dependency: glibc-headers for package: glibc-devel-2.17-307.el7.1.x86_64
+---> Package libmpc.x86_64 0:1.0.1-3.el7 will be installed
+---> Package mpfr.x86_64 0:3.1.1-4.el7 will be installed
+---> Package perl-Carp.noarch 0:1.26-244.el7 will be installed
+---> Package perl-Exporter.noarch 0:5.68-3.el7 will be installed
+---> Package perl-File-Path.noarch 0:2.09-2.el7 will be installed
+---> Package perl-File-Temp.noarch 0:0.23.01-3.el7 will be installed
+---> Package perl-Filter.x86_64 0:1.49-3.el7 will be installed
+---> Package perl-Getopt-Long.noarch 0:2.40-3.el7 will be installed
+--> Processing Dependency: perl(Pod::Usage) >= 1.14 for package: perl-Getopt-Long-2.40-3.el7.noarch
+--> Processing Dependency: perl(Text::ParseWords) for package: perl-Getopt-Long-2.40-3.el7.noarch
+---> Package perl-PathTools.x86_64 0:3.40-5.el7 will be installed
+---> Package perl-Pod-Simple.noarch 1:3.28-4.el7 will be installed
+--> Processing Dependency: perl(Pod::Escapes) >= 1.04 for package: 1:perl-Pod-Simple-3.28-4.el7.noarch
+--> Processing Dependency: perl(Encode) for package: 1:perl-Pod-Simple-3.28-4.el7.noarch
+---> Package perl-Scalar-List-Utils.x86_64 0:1.27-248.el7 will be installed
+---> Package perl-Socket.x86_64 0:2.010-5.el7 will be installed
+---> Package perl-Storable.x86_64 0:2.45-3.el7 will be installed
+---> Package perl-Time-HiRes.x86_64 4:1.9725-3.el7 will be installed
+---> Package perl-Time-Local.noarch 0:1.2300-2.el7 will be installed
+---> Package perl-constant.noarch 0:1.27-2.el7 will be installed
+---> Package perl-libs.x86_64 4:5.16.3-295.el7 will be installed
+---> Package perl-macros.x86_64 4:5.16.3-295.el7 will be installed
+---> Package perl-threads.x86_64 0:1.87-4.el7 will be installed
+---> Package perl-threads-shared.x86_64 0:1.43-6.el7 will be installed
+---> Package zlib-devel.x86_64 0:1.2.7-18.el7 will be installed
+--> Running transaction check
+---> Package glibc-headers.x86_64 0:2.17-307.el7.1 will be installed
+--> Processing Dependency: kernel-headers >= 2.2.1 for package: glibc-headers-2.17-307.el7.1.x86_64
+--> Processing Dependency: kernel-headers for package: glibc-headers-2.17-307.el7.1.x86_64
+---> Package perl-Encode.x86_64 0:2.51-7.el7 will be installed
+---> Package perl-Pod-Escapes.noarch 1:1.04-295.el7 will be installed
+---> Package perl-Pod-Usage.noarch 0:1.63-3.el7 will be installed
+--> Processing Dependency: perl(Pod::Text) >= 3.15 for package: perl-Pod-Usage-1.63-3.el7.noarch
+--> Processing Dependency: perl-Pod-Perldoc for package: perl-Pod-Usage-1.63-3.el7.noarch
+---> Package perl-Text-ParseWords.noarch 0:3.29-4.el7 will be installed
+--> Running transaction check
+---> Package kernel-headers.x86_64 0:3.10.0-1127.el7 will be installed
+---> Package perl-Pod-Perldoc.noarch 0:3.20-4.el7 will be installed
+--> Processing Dependency: perl(parent) for package: perl-Pod-Perldoc-3.20-4.el7.noarch
+--> Processing Dependency: perl(HTTP::Tiny) for package: perl-Pod-Perldoc-3.20-4.el7.noarch
+---> Package perl-podlators.noarch 0:2.5.1-3.el7 will be installed
+--> Running transaction check
+---> Package perl-HTTP-Tiny.noarch 0:0.033-3.el7 will be installed
+---> Package perl-parent.noarch 1:0.225-244.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                     Arch        Version                Repository
+                                                                           Size
+================================================================================
+Installing:
+ bzip2                       x86_64      1.0.6-13.el7           base       52 k
+ elfutils-libelf-devel       x86_64      0.176-4.el7            base       40 k
+ gcc                         x86_64      4.8.5-39.el7           base       16 M
+ kernel-devel                x86_64      3.10.0-1127.el7        base       18 M
+ perl                        x86_64      4:5.16.3-295.el7       base      8.0 M
+Installing for dependencies:
+ cpp                         x86_64      4.8.5-39.el7           base      5.9 M
+ glibc-devel                 x86_64      2.17-307.el7.1         base      1.1 M
+ glibc-headers               x86_64      2.17-307.el7.1         base      689 k
+ kernel-headers              x86_64      3.10.0-1127.el7        base      8.9 M
+ libmpc                      x86_64      1.0.1-3.el7            base       51 k
+ mpfr                        x86_64      3.1.1-4.el7            base      203 k
+ perl-Carp                   noarch      1.26-244.el7           base       19 k
+ perl-Encode                 x86_64      2.51-7.el7             base      1.5 M
+ perl-Exporter               noarch      5.68-3.el7             base       28 k
+ perl-File-Path              noarch      2.09-2.el7             base       26 k
+ perl-File-Temp              noarch      0.23.01-3.el7          base       56 k
+ perl-Filter                 x86_64      1.49-3.el7             base       76 k
+ perl-Getopt-Long            noarch      2.40-3.el7             base       56 k
+ perl-HTTP-Tiny              noarch      0.033-3.el7            base       38 k
+ perl-PathTools              x86_64      3.40-5.el7             base       82 k
+ perl-Pod-Escapes            noarch      1:1.04-295.el7         base       51 k
+ perl-Pod-Perldoc            noarch      3.20-4.el7             base       87 k
+ perl-Pod-Simple             noarch      1:3.28-4.el7           base      216 k
+ perl-Pod-Usage              noarch      1.63-3.el7             base       27 k
+ perl-Scalar-List-Utils      x86_64      1.27-248.el7           base       36 k
+ perl-Socket                 x86_64      2.010-5.el7            base       49 k
+ perl-Storable               x86_64      2.45-3.el7             base       77 k
+ perl-Text-ParseWords        noarch      3.29-4.el7             base       14 k
+ perl-Time-HiRes             x86_64      4:1.9725-3.el7         base       45 k
+ perl-Time-Local             noarch      1.2300-2.el7           base       24 k
+ perl-constant               noarch      1.27-2.el7             base       19 k
+ perl-libs                   x86_64      4:5.16.3-295.el7       base      689 k
+ perl-macros                 x86_64      4:5.16.3-295.el7       base       44 k
+ perl-parent                 noarch      1:0.225-244.el7        base       12 k
+ perl-podlators              noarch      2.5.1-3.el7            base      112 k
+ perl-threads                x86_64      1.87-4.el7             base       49 k
+ perl-threads-shared         x86_64      1.43-6.el7             base       39 k
+ zlib-devel                  x86_64      1.2.7-18.el7           base       50 k
+
+Transaction Summary
+================================================================================
+Install  5 Packages (+33 Dependent packages)
+
+Total download size: 62 M
+Installed size: 135 M
+Downloading packages:
+Delta RPMs disabled because /usr/bin/applydeltarpm not installed.
+--------------------------------------------------------------------------------
+Total                                               36 MB/s |  62 MB  00:01
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : mpfr-3.1.1-4.el7.x86_64                                     1/38
+  Installing : libmpc-1.0.1-3.el7.x86_64                                   2/38
+  Installing : cpp-4.8.5-39.el7.x86_64                                     3/38
+  Installing : 1:perl-parent-0.225-244.el7.noarch                          4/38
+  Installing : perl-HTTP-Tiny-0.033-3.el7.noarch                           5/38
+  Installing : perl-podlators-2.5.1-3.el7.noarch                           6/38
+  Installing : perl-Pod-Perldoc-3.20-4.el7.noarch                          7/38
+  Installing : 1:perl-Pod-Escapes-1.04-295.el7.noarch                      8/38
+  Installing : perl-Text-ParseWords-3.29-4.el7.noarch                      9/38
+  Installing : perl-Encode-2.51-7.el7.x86_64                              10/38
+  Installing : perl-Pod-Usage-1.63-3.el7.noarch                           11/38
+  Installing : 4:perl-libs-5.16.3-295.el7.x86_64                          12/38
+  Installing : 4:perl-macros-5.16.3-295.el7.x86_64                        13/38
+  Installing : perl-Storable-2.45-3.el7.x86_64                            14/38
+  Installing : perl-Exporter-5.68-3.el7.noarch                            15/38
+  Installing : perl-constant-1.27-2.el7.noarch                            16/38
+  Installing : perl-Socket-2.010-5.el7.x86_64                             17/38
+  Installing : perl-Time-Local-1.2300-2.el7.noarch                        18/38
+  Installing : perl-Carp-1.26-244.el7.noarch                              19/38
+  Installing : 4:perl-Time-HiRes-1.9725-3.el7.x86_64                      20/38
+  Installing : perl-PathTools-3.40-5.el7.x86_64                           21/38
+  Installing : perl-Scalar-List-Utils-1.27-248.el7.x86_64                 22/38
+  Installing : perl-File-Temp-0.23.01-3.el7.noarch                        23/38
+  Installing : perl-File-Path-2.09-2.el7.noarch                           24/38
+  Installing : perl-threads-shared-1.43-6.el7.x86_64                      25/38
+  Installing : perl-threads-1.87-4.el7.x86_64                             26/38
+  Installing : perl-Filter-1.49-3.el7.x86_64                              27/38
+  Installing : 1:perl-Pod-Simple-3.28-4.el7.noarch                        28/38
+  Installing : perl-Getopt-Long-2.40-3.el7.noarch                         29/38
+  Installing : 4:perl-5.16.3-295.el7.x86_64                               30/38
+  Installing : kernel-headers-3.10.0-1127.el7.x86_64                      31/38
+  Installing : glibc-headers-2.17-307.el7.1.x86_64                        32/38
+  Installing : glibc-devel-2.17-307.el7.1.x86_64                          33/38
+  Installing : zlib-devel-1.2.7-18.el7.x86_64                             34/38
+  Installing : elfutils-libelf-devel-0.176-4.el7.x86_64                   35/38
+  Installing : gcc-4.8.5-39.el7.x86_64                                    36/38
+  Installing : kernel-devel-3.10.0-1127.el7.x86_64                        37/38
+  Installing : bzip2-1.0.6-13.el7.x86_64                                  38/38
+  Verifying  : perl-HTTP-Tiny-0.033-3.el7.noarch                           1/38
+  Verifying  : perl-threads-shared-1.43-6.el7.x86_64                       2/38
+  Verifying  : perl-Storable-2.45-3.el7.x86_64                             3/38
+  Verifying  : 1:perl-Pod-Escapes-1.04-295.el7.noarch                      4/38
+  Verifying  : mpfr-3.1.1-4.el7.x86_64                                     5/38
+  Verifying  : perl-Exporter-5.68-3.el7.noarch                             6/38
+  Verifying  : perl-constant-1.27-2.el7.noarch                             7/38
+  Verifying  : perl-PathTools-3.40-5.el7.x86_64                            8/38
+  Verifying  : gcc-4.8.5-39.el7.x86_64                                     9/38
+  Verifying  : perl-Socket-2.010-5.el7.x86_64                             10/38
+  Verifying  : 1:perl-parent-0.225-244.el7.noarch                         11/38
+  Verifying  : bzip2-1.0.6-13.el7.x86_64                                  12/38
+  Verifying  : zlib-devel-1.2.7-18.el7.x86_64                             13/38
+  Verifying  : 4:perl-libs-5.16.3-295.el7.x86_64                          14/38
+  Verifying  : perl-File-Temp-0.23.01-3.el7.noarch                        15/38
+  Verifying  : kernel-devel-3.10.0-1127.el7.x86_64                        16/38
+  Verifying  : 1:perl-Pod-Simple-3.28-4.el7.noarch                        17/38
+  Verifying  : perl-Time-Local-1.2300-2.el7.noarch                        18/38
+  Verifying  : kernel-headers-3.10.0-1127.el7.x86_64                      19/38
+  Verifying  : 4:perl-macros-5.16.3-295.el7.x86_64                        20/38
+  Verifying  : 4:perl-5.16.3-295.el7.x86_64                               21/38
+  Verifying  : perl-Carp-1.26-244.el7.noarch                              22/38
+  Verifying  : 4:perl-Time-HiRes-1.9725-3.el7.x86_64                      23/38
+  Verifying  : perl-Scalar-List-Utils-1.27-248.el7.x86_64                 24/38
+  Verifying  : libmpc-1.0.1-3.el7.x86_64                                  25/38
+  Verifying  : perl-Pod-Usage-1.63-3.el7.noarch                           26/38
+  Verifying  : perl-Encode-2.51-7.el7.x86_64                              27/38
+  Verifying  : glibc-headers-2.17-307.el7.1.x86_64                        28/38
+  Verifying  : perl-Pod-Perldoc-3.20-4.el7.noarch                         29/38
+  Verifying  : perl-podlators-2.5.1-3.el7.noarch                          30/38
+  Verifying  : perl-File-Path-2.09-2.el7.noarch                           31/38
+  Verifying  : elfutils-libelf-devel-0.176-4.el7.x86_64                   32/38
+  Verifying  : perl-threads-1.87-4.el7.x86_64                             33/38
+  Verifying  : perl-Filter-1.49-3.el7.x86_64                              34/38
+  Verifying  : perl-Getopt-Long-2.40-3.el7.noarch                         35/38
+  Verifying  : perl-Text-ParseWords-3.29-4.el7.noarch                     36/38
+  Verifying  : cpp-4.8.5-39.el7.x86_64                                    37/38
+  Verifying  : glibc-devel-2.17-307.el7.1.x86_64                          38/38
+
+Installed:
+  bzip2.x86_64 0:1.0.6-13.el7     elfutils-libelf-devel.x86_64 0:0.176-4.el7
+  gcc.x86_64 0:4.8.5-39.el7       kernel-devel.x86_64 0:3.10.0-1127.el7
+  perl.x86_64 4:5.16.3-295.el7
+
+Dependency Installed:
+  cpp.x86_64 0:4.8.5-39.el7
+  glibc-devel.x86_64 0:2.17-307.el7.1
+  glibc-headers.x86_64 0:2.17-307.el7.1
+  kernel-headers.x86_64 0:3.10.0-1127.el7
+  libmpc.x86_64 0:1.0.1-3.el7
+  mpfr.x86_64 0:3.1.1-4.el7
+  perl-Carp.noarch 0:1.26-244.el7
+  perl-Encode.x86_64 0:2.51-7.el7
+  perl-Exporter.noarch 0:5.68-3.el7
+  perl-File-Path.noarch 0:2.09-2.el7
+  perl-File-Temp.noarch 0:0.23.01-3.el7
+  perl-Filter.x86_64 0:1.49-3.el7
+  perl-Getopt-Long.noarch 0:2.40-3.el7
+  perl-HTTP-Tiny.noarch 0:0.033-3.el7
+  perl-PathTools.x86_64 0:3.40-5.el7
+  perl-Pod-Escapes.noarch 1:1.04-295.el7
+  perl-Pod-Perldoc.noarch 0:3.20-4.el7
+  perl-Pod-Simple.noarch 1:3.28-4.el7
+  perl-Pod-Usage.noarch 0:1.63-3.el7
+  perl-Scalar-List-Utils.x86_64 0:1.27-248.el7
+  perl-Socket.x86_64 0:2.010-5.el7
+  perl-Storable.x86_64 0:2.45-3.el7
+  perl-Text-ParseWords.noarch 0:3.29-4.el7
+  perl-Time-HiRes.x86_64 4:1.9725-3.el7
+  perl-Time-Local.noarch 0:1.2300-2.el7
+  perl-constant.noarch 0:1.27-2.el7
+  perl-libs.x86_64 4:5.16.3-295.el7
+  perl-macros.x86_64 4:5.16.3-295.el7
+  perl-parent.noarch 1:0.225-244.el7
+  perl-podlators.noarch 0:2.5.1-3.el7
+  perl-threads.x86_64 0:1.87-4.el7
+  perl-threads-shared.x86_64 0:1.43-6.el7
+  zlib-devel.x86_64 0:1.2.7-18.el7
+
+Complete!
+Copy iso file C:\Program Files\Oracle\VirtualBox\VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+Mounting Virtualbox Guest Additions ISO to: /mnt
+mount: /dev/loop0 is write-protected, mounting read-only
+Installing Virtualbox Guest Additions 6.1.6 - guest version is unknown
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 6.1.6 Guest Additions for Linux........
+VirtualBox Guest Additions installer
+Copying additional installer modules ...
+Installing additional modules ...
+VirtualBox Guest Additions: Starting.
+VirtualBox Guest Additions: Building the VirtualBox Guest Additions kernel
+modules.  This may take a while.
+VirtualBox Guest Additions: To build modules for other installed kernels, run
+VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup <version>
+VirtualBox Guest Additions: or
+VirtualBox Guest Additions:   /sbin/rcvboxadd quicksetup all
+VirtualBox Guest Additions: Building the modules for kernel
+3.10.0-1127.el7.x86_64.
+Redirecting to /bin/systemctl start vboxadd.service
+Redirecting to /bin/systemctl start vboxadd-service.service
+Unmounting Virtualbox Guest Additions ISO from: /mnt
+==> default: Checking for guest additions in VM...
+==> default: Mounting shared folders...
+    default: /vagrant => C:/Users/.../Documents/GitHub/manual_kernel_update/packer/test
+```
+
+
+
+Залогинемся и посмотрим на директорию vagrant:
+
+```
+vagrant ssh
+[vagrant@localhost /]$ ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  vagrant  var
+[vagrant@localhost /]$ cd vagrant
+[vagrant@localhost vagrant]$ ls
+Vagrantfile
+```
+
+
+
